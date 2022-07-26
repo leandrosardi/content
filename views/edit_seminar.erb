@@ -25,7 +25,7 @@ desc = s.description
     <div class="span3 box">
         <h4>Sections</h4>
         <%
-        s.sections.sort_by { |t| t.name.to_s }.each { |section|
+        s.sections.sort_by { |t| t.name.to_s }.select { |t| t.delete_time.nil? }.each { |section|
         %>
         <section class="row-fluid">
             <div class="span12">
@@ -72,6 +72,7 @@ desc = s.description
                     <div class="control-group">
                         <div class="controls">
                             <button type="submit" class="btn btn-blue">Save</button>
+                            <a class="btn btn-gray" href='/content/seminars/<%=s.id.to_guid%>/view'>Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -80,7 +81,7 @@ desc = s.description
 
         <!-- draw section -->
         <%
-        s.sections.sort_by { |t| t.name.to_s }.each { |section|
+        s.sections.sort_by { |t| t.name.to_s }.select { |t| t.delete_time.nil? }.each { |section|
         %>
         <section class="row-fluid" id='<%=section.id.to_guid%>' name='<%=section.id.to_guid%>'>
             <div class="span12 box section">

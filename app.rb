@@ -72,6 +72,9 @@ end
 post "/content/filter_delete_section", :auth => true do
     erb :"/extensions/content/views/filter_delete_section"
 end
+get "/content/filter_delete_section", :auth => true do
+    erb :"/extensions/content/views/filter_delete_section"
+end
 
 # AJAX 
 # TODO: Code Me!
