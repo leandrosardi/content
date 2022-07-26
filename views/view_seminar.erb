@@ -16,7 +16,7 @@ desc = s.description
 <div class="mynavbar mysticky">
 	<section class="row-fluid">	
 		<div class="span6">
-		    <%=nav3("Content", "/content", "Seminars", "/content/seminars", "#{path}/#{name}")%>
+		    <%=nav3("Content", "/content", "Seminars", "/content/seminars", "#{name.capitalize}")%>
 		</div>
 	</section>
 </div>
@@ -53,6 +53,7 @@ desc = s.description
                 <a href='/content/seminars/<%=params['sid'].to_guid%>/edit' class='button' title='Edit'><i class='icon-pencil'></i></a>               
                 <a href='/content/filter_delete_seminar?sid=<%=params['sid'].to_guid%>' class='button' title='Delete'><i class='icon-trash'></i></a>               
                 <a href='<%=CS_HOME_WEBSITE%>/seminars/pub/<%=path%>/<%=name%>' target='_window' class='button' title='view'><i class='icon-link'></i></a>               
+                <span class='path'><b>path:</b> <%=path%></span>
             </div>
         </section>
 

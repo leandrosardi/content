@@ -1,9 +1,9 @@
 <%
 # load preferences
-name = @login.user.preference('content.seminar.new.name', '', params[:name])
-path = @login.user.preference('content.seminar.new.path', '', params[:path])
-publ = @login.user.preference('content.seminar.new.public', false, params[:public])
-desc = @login.user.preference('content.seminar.new.description', '', params[:description])
+name = @login.user.preference('content.seminar.new.name', '', nil)
+path = @login.user.preference('content.seminar.new.path', '', nil)
+publ = @login.user.preference('content.seminar.new.public', false, nil)
+desc = @login.user.preference('content.seminar.new.description', '', nil)
 %>
 
 <!-- NavBar -->

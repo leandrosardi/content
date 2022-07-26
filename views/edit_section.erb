@@ -1,16 +1,25 @@
 <%
+sid = params[:sid].to_s
+tid = params[:tid].to_s
+
+s = BlackStack::Content::Seminar.where(:id=>sid).first
+t = BlackStack::Content::Section.where(:id=>tid).first
+
 # load preferences
-name = @login.user.preference('content.seminar.new.name', '', params[:name])
-path = @login.user.preference('content.seminar.new.path', '', params[:path])
-publ = @login.user.preference('content.seminar.new.public', false, params[:public])
-desc = @login.user.preference('content.seminar.new.description', '', params[:description])
+name = @login.user.preference('content.section.edit.name', '', t.name)
+desc = @login.user.preference('content.section.edit.description', '', t.description)
+premium = @login.user.preference('content.section.edit.premium', false, t.premium)
+premium_required_product = @login.user.preference('content.section.edit.premium_required_product', '', t.premium_required_product)
+premium_blured_screenshot_url = @login.user.preference('content.section.edit.premium_blured_screenshot_url', '', t.premium_blured_screenshot_url)
+type = @login.user.preference('content.section.edit.type', BlackStack::Content::Section::TYPE_MARKDOWN, t.type)
+content = t.content
 %>
 
 <!-- NavBar -->
 <div class="mynavbar mysticky">
 	<section class="row-fluid">	
 		<div class="span6">
-		<%=nav3("Content", "/content", "Seminars", "/content/seminars", "New")%>
+            <%=nav4("Content", "/content", "Seminars", "/content/seminars", "#{s.name.capitalize}", "/content/seminars/#{s.id.to_guid}/view", t.name)%>
 		</div>
 	</section>
 </div>
@@ -18,7 +27,7 @@ desc = @login.user.preference('content.seminar.new.description', '', params[:des
 <!-- Single Panel -->
 <section class="row-fluid">
 	<div class="span12 box">
-		<form method='post' action='/content/filter_new_seminar' class="form-horizontal">
+		<form method='post' action='/content/filter_edit_section' class="form-horizontal">
             <div class="control-group">
                 <label class="control-label" for="name">Name</label>
                 <div class="controls">
@@ -27,27 +36,51 @@ desc = @login.user.preference('content.seminar.new.description', '', params[:des
             </div>
 
             <div class="control-group">
-                <label class="control-label" for="path">Path</label>
+                <label class="control-label" for="description">Description</label>
                 <div class="controls">
-                    <input type="text" id="path" name='path' placeholder="Path" value='<%=path.to_s.encode_html%>' />
-                    <p><b><%=CS_HOME_WEBSITE%>/seminars/</b><span id='preview_path'>path</span><b>/</b><span id='preview_name'>name</span></p>
+                    <textarea id="description" name='description' placeholder="Description" rows=5 style='width:100%;' maxlength=4000><%=desc.to_s.encode_html%></textarea>
                 </div>
 
                 <div class="controls">
                     <label class="checkbox">
-                        <input type="checkbox" id='public' name='public' <%=publ ? 'checked' : ''%>> Public
+                        <input type="checkbox" id='premium' name='premium' <%=premium ? 'checked' : ''%>> Premium
                     </label>
                 </div>
+            </div>
 
-                <label class="control-label" for="description">Description</label>
+            <div class="control-group">
+                <b>Premium Content Configuration</b>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="name">Premium Required Product</label>
                 <div class="controls">
-                    <textarea id="description" name='description' placeholder="Description" rows=5 style='width:100%;' maxlength=4000><%=desc.to_s.encode_html%></textarea>
+                    <input type="text" class='input input-block-level' id="premium_required_product" name='premium_required_product' placeholder="Name of required pourchased product to access this premium content." value='<%=premium_required_product.to_s.encode_html%>' />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="name">Premium Blured Screenshot URL</label>
+                <div class="controls">
+                    <input type="text" class='input input-block-level' id="premium_blured_screenshot_url" name='premium_blured_screenshot_url' placeholder="URL of screenshot to show when the user has not grants to this premium content." value='<%=premium_required_product.to_s.encode_html%>' />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <b>Content</b>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="description">Markdown</label>
+                <div class="controls">
+                    <textarea id="content" name='content' placeholder="Markdown Content" rows=15 style='width:100%;' maxlength=4000><%=content.to_s.encode_html%></textarea>
                 </div>
             </div>
 
             <div class="control-group">
                 <div class="controls">
-                    <button type="submit" class="btn btn-blue">Create</button>
+                    <button type="submit" class="btn btn-blue">Save</button>
+                    <a class="btn btn-gray" href='/content/seminars/<%=s.id.to_guid%>/view#<%=t.id.to_guid%>'>Cancel</a>
                 </div>
             </div>
         </form>
