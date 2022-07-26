@@ -34,17 +34,30 @@ q = "
             </thead>
             <tbody>
                 <%
+                i = 0
                 DB[q].all do |row|
+                    i += 1
                 %>
                 <tr>
                     <td class="fix" title="<%=row[:path].to_s.encode_html%>"><%=row[:path].to_s.encode_html%></td>
                     <td class="fix" title="<%=row[:name].to_s.encode_html%>"><%=row[:name].to_s.encode_html%></td>
                     <td class="fix" title="<%=row[:description].to_s.encode_html%>"><%=row[:description].to_s.encode_html%></td>
                     <td class="fix" title="<%=row[:user_name].to_s.encode_html%>"><%=row[:user_name].to_s.encode_html%></td>
-                    <td><a title='Edit' href='/content/seminars/#{row[:id].to_guid}/edit'><i class='icon-pencil'></i></a></td>
-                    <td><a title='Delete' href='/content/seminars/#{row[:id].to_guid}/delete'><i class='icon-trash'></i></a></td>
-                    <td><a title='View' href='<%=CS_HOME_WEBSITE%>/seminars/pub/#{row[:path]}/#{row[:folder]}' target='_window'><i class='icon-link'></i></a></td>
+                    <td><a title='Edit' href='/content/seminars/<%=row[:id].to_guid%>/edit'><i class='icon-pencil'></i></a></td>
+                    <td><a title='Delete' href='/content/seminars/<%=row[:id].to_guid%>/delete'><i class='icon-trash'></i></a></td>
+                    <td><a title='View' href='<%=CS_HOME_WEBSITE%>/seminars/pub/<%=row[:path]%>/<%=row[:folder]%>' target='_window'><i class='icon-link'></i></a></td>
                 </tr>
+                <%
+                end
+
+                if i==0
+                %>
+                <tr>
+                    <td colspan="8" class="fix" align='center' style='text-align:center;'>
+                        No seminars found.</br>
+                        <a href='/content/seminars/new'>Create a new seminar here.</a>
+                    </td>
+                <tr>
                 <%
                 end
                 %>

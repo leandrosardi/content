@@ -1,0 +1,59 @@
+<%
+sid = params[:sid].to_s
+s = BlackStack::Content::Seminar.where(:id=>sid).first
+
+# load preferences
+name = s.name
+path = s.path
+publ = s.public
+desc = s.description
+%>
+
+<!-- NavBar -->
+<div class="mynavbar mysticky">
+	<section class="row-fluid">	
+		<div class="span6">
+		<%=nav3("Content", "/content", "Seminars", "/content/seminars", "#{path}/#{name}")%>
+		</div>
+	</section>
+</div>
+
+<!-- Single Panel -->
+<section class="row-fluid">
+	<div class="span12 box">
+		<form method='post' action='/content/filter_edit_seminar' class="form-horizontal">
+            <input id='sid' name='sid' type='hidden' value='<%=sid%>'  />
+            <div class="control-group">
+                <label class="control-label" for="name">Name</label>
+                <div class="controls">
+                    <input type="text" id="name" name='name' placeholder="Name" value='<%=name.to_s.encode_html%>' />
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="path">Path</label>
+                <div class="controls">
+                    <input type="text" id="path" name='path' placeholder="Path" value='<%=path.to_s.encode_html%>' />
+                    <p><b><%=CS_HOME_WEBSITE%>/seminars/</b><span id='preview_path'>path</span><b>/</b><span id='preview_name'>name</span></p>
+                </div>
+
+                <div class="controls">
+                    <label class="checkbox">
+                        <input type="checkbox" id='public' name='public' <%=publ ? 'checked' : ''%>> Public
+                    </label>
+                </div>
+
+                <label class="control-label" for="description">Description</label>
+                <div class="controls">
+                    <textarea id="description" name='description' placeholder="Description" rows=5 style='width:100%;' maxlength=4000><%=desc.to_s.encode_html%></textarea>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-blue">Save</button>
+                </div>
+            </div>
+        </form>
+	</div>
+</section>

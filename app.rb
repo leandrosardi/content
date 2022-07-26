@@ -16,10 +16,6 @@ get "/content/seminars/new", :auth => true, :agent => /(.*)/ do
     erb :"/extensions/content/views/new_seminar", :layout => :"/views/layouts/core"
 end
 
-get "/content/seminars/:sid", :auth => true, :agent => /(.*)/ do
-    erb :"/extensions/content/views/view_seminar", :layout => :"/views/layouts/core"
-end
-
 get "/content/seminars/:sid/edit", :auth => true, :agent => /(.*)/ do
     erb :"/extensions/content/views/edit_seminar", :layout => :"/views/layouts/core"
 end
