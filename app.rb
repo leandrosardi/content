@@ -29,12 +29,12 @@ get "/content/seminars/:sid/edit/:tid", :auth => true, :agent => /(.*)/ do
 end
 
 # public URLs of seminars
-get "/seminars/pub/:folder/:seminar", :agent => /(.*)/ do
+get "/seminars/pub/:path/:seminar", :agent => /(.*)/ do
     erb :"/extensions/content/views/seminar", :layout => :"/views/layouts/public"
 end
 
 # private URLs of seminars, for the loggedin users
-get "/seminars/:folder/:seminar", :auth => true, :agent => /(.*)/ do
+get "/seminars/:path/:seminar", :auth => true, :agent => /(.*)/ do
     erb :"/extensions/content/views/public", :layout => :"/views/layouts/core"
 end
 
