@@ -28,6 +28,8 @@ content = t.content
 <section class="row-fluid">
 	<div class="span12 box">
 		<form method='post' action='/content/filter_edit_section' class="form-horizontal">
+            <input id='tid' name='tid' type='hidden' value='<%=t.id.to_guid%>'/>
+
             <div class="control-group">
                 <label class="control-label" for="name">Name</label>
                 <div class="controls">

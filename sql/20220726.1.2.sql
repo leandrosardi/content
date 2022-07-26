@@ -56,3 +56,5 @@ alter table cnt_seminar add column if not exists delete_time timestamp null;
 alter table cnt_section add column if not exists delete_time timestamp null;
 
 alter table cnt_section add column if not exists premium_blured_screenshot_url varchar(8000) null;
+
+alter table cnt_changelog add column if not exists premium_blured_screenshot_url varchar(8000) null;
