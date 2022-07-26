@@ -35,7 +35,7 @@ begin
     o.save
 
     # return
-    redirect "/content/seminars/#{params['sid'].to_guid}/edit?msg="+ CGI::escape('Seminar edited.')
+    redirect "/content/seminars/#{params['sid'].to_guid}/view?msg="+ CGI::escape('Seminar edited.')
 rescue => e
     # return errors
     redirect "/content/seminars/#{params['sid'].to_guid}/edit?err="+ CGI::escape(e.message)

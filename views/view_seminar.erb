@@ -48,7 +48,7 @@ desc = s.description
         <section class="row-fluid">
             <div class="span12 box seminar">
                 <h1 class='name'><%=name.to_s.encode_html%></h1>
-                <p class='content'><%=desc.to_s.encode_html%></p>
+                <pre class='content'><%=desc.to_s.encode_html%></pre>
                 <span class='badge badge-<%=publ ? 'green' : 'blue'%>'><%=publ ? 'public' : 'private'%></span> 
                 <a href='/content/seminars/<%=params['sid'].to_guid%>/edit' class='button' title='Edit'><i class='icon-pencil'></i></a>               
                 <a href='/content/seminars/<%=params['sid'].to_guid%>/edit' class='button' title='Delete'><i class='icon-trash'></i></a>               
@@ -63,7 +63,7 @@ desc = s.description
         <section class="row-fluid" id='<%=section.id.to_guid%>' name='<%=section.id.to_guid%>'>
             <div class="span12 box section">
                 <h1 class='name'><%=section.name.to_s.encode_html%></h1>
-                <p class='description'><%=section.description.to_s.encode_html%></p>
+                <pre class='description'><%=section.description.to_s.encode_html%></pre>
                 <span class='badge badge-<%=section.premium ? 'green' : 'blue'%>'><%=section.premium ? 'premium' : 'free'%></span> 
                 <a href='/content/seminars/<%=params['sid'].to_guid%>/edit' class='button' title='Edit'><i class='icon-pencil'></i></a>               
                 <a href='/content/seminars/<%=params['sid'].to_guid%>/edit' class='button' title='Delete'><i class='icon-trash'></i></a>               

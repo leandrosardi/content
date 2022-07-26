@@ -2,6 +2,9 @@
 sid = params[:sid].to_s
 s = BlackStack::Content::Seminar.where(:id=>sid).first
 
+# rendered to convert markdown to html
+markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
+
 # load preferences
 name = s.name
 path = s.path
@@ -32,12 +35,6 @@ desc = s.description
         <%
         }
         %>
-        <br/>
-        <section class="row-fluid">
-            <div class="span12">
-                <a href='/content/filter_new_section?sid=<%=params['sid']%>' title='Add section'><i class='icon-plus'></i> Add Section</a>
-            </div>
-        </section>
     </div>
 
     <div class="span9">
@@ -88,21 +85,14 @@ desc = s.description
         <section class="row-fluid" id='<%=section.id.to_guid%>' name='<%=section.id.to_guid%>'>
             <div class="span12 box section">
                 <h2><%=section.name.to_s.encode_html%></h2>
-                <p class='description'><%=section.description.to_s.encode_html%></p>
+                <pre class='description'><%=section.description.to_s.encode_html%></pre>
                 <div class='content'>
-                    <%=section.content.to_s%>
+                    <%=markdown.render(section.content.to_s)%>
                 </div>
             </div>
         </section>
         <%
         }
         %>
-
-        <!-- add section -->
-        <section class="row-fluid">
-            <div class="span12 box">
-                <center><h1><a href='/content/filter_new_section?sid=<%=params['sid']%>' title='Add section'><i class='icon-plus'></i> Add Section</a></h1></center>
-            </div>
-        </section>
     </div>
 </section>
