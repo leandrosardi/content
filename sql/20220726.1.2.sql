@@ -50,3 +50,7 @@ create table IF NOT EXISTS cnt_action (
     create_time timestamp not null,
     "type" int not null -- 0:seen, 1:marked as done.
 );
+
+alter table cnt_seminar add column if not exists delete_time timestamp null;
+
+alter table cnt_section add column if not exists delete_time timestamp null;

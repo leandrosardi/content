@@ -3,6 +3,7 @@ q = "
     select s.id, s.path, s.name, s.description, u.id as id_user, u.name as user_name, s.create_time 
     from cnt_seminar s
     join \"user\" u on (u.id=s.id_user and u.id_account='#{@login.user.id_account}')
+    where s.delete_time is null
 "
 %>
 
@@ -43,9 +44,9 @@ q = "
                     <td class="fix" title="<%=row[:name].to_s.encode_html%>"><%=row[:name].to_s.encode_html%></td>
                     <td class="fix" title="<%=row[:description].to_s.encode_html%>"><%=row[:description].to_s.encode_html%></td>
                     <td class="fix" title="<%=row[:user_name].to_s.encode_html%>"><%=row[:user_name].to_s.encode_html%></td>
-                    <td><a title='Edit' href='/content/seminars/<%=row[:id].to_guid%>/edit'><i class='icon-pencil'></i></a></td>
-                    <td><a title='Delete' href='/content/seminars/<%=row[:id].to_guid%>/delete'><i class='icon-trash'></i></a></td>
-                    <td><a title='View' href='<%=CS_HOME_WEBSITE%>/seminars/pub/<%=row[:path]%>/<%=row[:folder]%>' target='_window'><i class='icon-link'></i></a></td>
+                    <td><a title='Edit' href='/content/seminars/<%=row[:id].to_guid%>/view'><i class='icon-pencil'></i></a></td>
+                    <td><a title='Delete' href='/content/filter_delete_seminar?sid=<%=row[:id].to_guid%>'><i class='icon-trash'></i></a></td>
+                    <td><a title='View' href='<%=CS_HOME_WEBSITE%>/seminars/pub/<%=row[:path]%>/<%=row[:name]%>' target='_window'><i class='icon-link'></i></a></td>
                 </tr>
                 <%
                 end

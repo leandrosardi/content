@@ -1,0 +1,87 @@
+<%
+sid = params[:sid].to_s
+s = BlackStack::Content::Seminar.where(:id=>sid).first
+
+# rendered to convert markdown to html
+markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
+
+# load preferences
+name = s.name
+path = s.path
+publ = s.public
+desc = s.description
+%>
+
+<!-- NavBar -->
+<div class="mynavbar mysticky">
+	<section class="row-fluid">	
+		<div class="span6">
+		    <%=nav3("Content", "/content", "Seminars", "/content/seminars", "#{path}/#{name}")%>
+		</div>
+	</section>
+</div>
+
+<section class="row-fluid">
+    <div class="span3 box">
+        <h4>Sections</h4>
+        <%
+        s.sections.sort_by { |t| t.name.to_s }.each { |section|
+        %>
+        <section class="row-fluid">
+            <div class="span12">
+                <a href='#<%=section.id.to_guid%>'><i class='icon-chevron-right'></i> <%=section.name.to_s.encode_html%></a>
+            </div>
+        </section>
+        <%
+        }
+        %>
+        <br/>
+        <section class="row-fluid">
+            <div class="span12">
+                <a href='/content/filter_new_section?sid=<%=params['sid']%>' title='Add section'><i class='icon-plus'></i> Add Section</a>
+            </div>
+        </section>
+    </div>
+
+    <div class="span9">
+        <!-- edit seminar -->
+        <section class="row-fluid">
+            <div class="span12 box seminar">
+                <h1 class='name'><%=name.to_s.encode_html%></h1>
+                <p class='content'><%=desc.to_s.encode_html%></p>
+                <span class='badge badge-<%=publ ? 'green' : 'blue'%>'><%=publ ? 'public' : 'private'%></span> 
+                <a href='/content/seminars/<%=params['sid'].to_guid%>/edit' class='button' title='Edit'><i class='icon-pencil'></i></a>               
+                <a href='/content/seminars/<%=params['sid'].to_guid%>/edit' class='button' title='Delete'><i class='icon-trash'></i></a>               
+                <a href='/content/seminars/<%=params['sid'].to_guid%>/edit' class='button' title='view'><i class='icon-link'></i></a>               
+            </div>
+        </section>
+
+        <!-- draw section -->
+        <%
+        s.sections.sort_by { |t| t.name.to_s }.each { |section|
+        %>
+        <section class="row-fluid" id='<%=section.id.to_guid%>' name='<%=section.id.to_guid%>'>
+            <div class="span12 box section">
+                <h1 class='name'><%=section.name.to_s.encode_html%></h1>
+                <p class='description'><%=section.description.to_s.encode_html%></p>
+                <span class='badge badge-<%=section.premium ? 'green' : 'blue'%>'><%=section.premium ? 'premium' : 'free'%></span> 
+                <a href='/content/seminars/<%=params['sid'].to_guid%>/edit' class='button' title='Edit'><i class='icon-pencil'></i></a>               
+                <a href='/content/seminars/<%=params['sid'].to_guid%>/edit' class='button' title='Delete'><i class='icon-trash'></i></a>               
+                <a href='/content/seminars/<%=params['sid'].to_guid%>/edit' class='button' title='view'><i class='icon-link'></i></a>               
+                <div class='content'>
+                    <%=markdown.render(section.content.to_s)%>
+                </div>
+            </div>
+        </section>
+        <%
+        }
+        %>
+
+        <!-- add section -->
+        <section class="row-fluid">
+            <div class="span12 box">
+                <center><h1><a href='/content/filter_new_section?sid=<%=params['sid']%>' title='Add section'><i class='icon-plus'></i> Add Section</a></h1></center>
+            </div>
+        </section>
+    </div>
+</section>

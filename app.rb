@@ -16,6 +16,10 @@ get "/content/seminars/new", :auth => true, :agent => /(.*)/ do
     erb :"/extensions/content/views/new_seminar", :layout => :"/views/layouts/core"
 end
 
+get "/content/seminars/:sid/view", :auth => true, :agent => /(.*)/ do
+    erb :"/extensions/content/views/view_seminar", :layout => :"/views/layouts/core"
+end
+
 get "/content/seminars/:sid/edit", :auth => true, :agent => /(.*)/ do
     erb :"/extensions/content/views/edit_seminar", :layout => :"/views/layouts/core"
 end
@@ -46,12 +50,18 @@ end
 post "/content/filter_delete_seminar", :auth => true do
     erb :"/extensions/content/views/filter_delete_seminar"
 end
+get "/content/filter_delete_seminar", :auth => true do
+    erb :"/extensions/content/views/filter_delete_seminar"
+end
 
 post "/content/filter_new_version", :auth => true do
     erb :"/extensions/content/views/filter_new_version"
 end
 
 post "/content/filter_new_section", :auth => true do
+    erb :"/extensions/content/views/filter_new_section"
+end
+get "/content/filter_new_section", :auth => true do
     erb :"/extensions/content/views/filter_new_section"
 end
 
