@@ -44,4 +44,9 @@ BlackStack::Extensions::add ({
             :sudo => true,
         }],
     }],
+
+    # define CSS files to add
+    :css_files => [
+        '/content/css/section.css',
+    ],
 })
