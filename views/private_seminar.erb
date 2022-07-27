@@ -83,20 +83,14 @@ a[0].seen_by(@login.user) if a.size > 0
             i = 0
             s.sections.sort_by { |t| t.name.to_s }.select { |t| t.delete_time.nil? }.each { |section|
                 i += 1
+                seen = section.seen_by?(@login.user)
+                done = section.done_by?(@login.user)
             %>
             <section class="row-fluid section">
                 <div class="span12">
-                    <%
-                    if i == 1
-                    %>
-                    <a href='#<%=i%>'><i class='icon-chevron-right'></i> <%=section.name.to_s.encode_html%></a>
-                    <%
-                    else
-                    %>
-                    <a href="#<%=i%>" class="disabled"><i class='icon-chevron-right'></i> <%=section.name.to_s.encode_html%></a>
-                    <%
-                    end
-                    %>
+                    <a href='#<%=i%>' <%=seen ? '' : 'class="disabled"'%>>
+                        <i style='<%= done ? 'color:"geen"' : ''%>' class='icon-<%= !done ? 'time' : 'ok'%>'></i> <%=section.name.to_s.encode_html%>
+                    </a>
                 </div>
             </section>
             <%
