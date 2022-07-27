@@ -29,13 +29,13 @@ get "/content/seminars/:sid/edit/:tid", :auth => true, :agent => /(.*)/ do
 end
 
 # public URLs of seminars
-get "/seminars/pub/:path/:seminar", :agent => /(.*)/ do
-    erb :"/extensions/content/views/seminar", :layout => :"/views/layouts/public"
+get "/seminars/pub/:path/:name", :agent => /(.*)/ do
+    erb :"/extensions/content/views/public_seminar", :layout => :"/views/layouts/public"
 end
 
 # private URLs of seminars, for the loggedin users
-get "/seminars/:path/:seminar", :auth => true, :agent => /(.*)/ do
-    erb :"/extensions/content/views/public", :layout => :"/views/layouts/core"
+get "/seminars/:path/:name", :auth => true, :agent => /(.*)/ do
+    erb :"/extensions/content/views/private_seminar", :layout => :"/views/layouts/core"
 end
 
 # filters

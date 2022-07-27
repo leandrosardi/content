@@ -52,4 +52,22 @@ div.section div.content {
     width: 100%;
     margin-top: 15px;
     border-top: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+
+div.section div.done {
+    width: 100%;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ccc;
+}
+
+
+div.sections {
+    position: fixed;  
+    right: 0px;
+}
+
+div.sections section.section a.disabled {
+    color: rgb(166,210,255);
 }
