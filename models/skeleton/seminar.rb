@@ -20,13 +20,13 @@ module BlackStack
 
             # Return true if the parameter s is valid to be used as a seminar name.
             def self.valid_name?(s)
-                chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a + ['_', '-']
+                chars = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a + ['_', '-']
                 s.chars.detect {|ch| !chars.include?(ch)}.nil?
             end
 
             # Return true if the parameter s is valid to be used as a seminar path.
             def self.valid_path?(s)
-                chars = ('a'..'z').to_a + ('A'..'Z').to_a + (0..9).to_a + ['_', '-']
+                chars = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a + ['_', '-']
                 s.chars.detect {|ch| !chars.include?(ch)}.nil?
             end
 

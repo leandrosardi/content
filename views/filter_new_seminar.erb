@@ -44,7 +44,7 @@ begin
     o.save
 
     # return
-    redirect "/content/seminars/#{o.id.to_guid}?msg="+ CGI::escape('Seminar created.')
+    redirect "/content/seminars/#{o.id.to_guid}/view?msg="+ CGI::escape('Seminar created.')
 rescue => e
     # return errors
     redirect "/content/seminars/new?err="+ CGI::escape(e.message)

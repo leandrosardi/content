@@ -4,6 +4,7 @@ q = "
     from cnt_seminar s
     join \"user\" u on (u.id=s.id_user and u.id_account='#{@login.user.id_account}')
     where s.delete_time is null
+    order by s.path, s.name
 "
 %>
 
