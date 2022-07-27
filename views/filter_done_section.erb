@@ -8,7 +8,9 @@ begin
     # get the position of this section in the array
     i = a.index(o)+1 
 
-    # mark section as done by the logged user
+    # mark section as seen & done by the logged user
+    # it should have been seen before, but maybe it is a new section, added after the user completed the seminar before
+    o.seen_by(@login.user)
     o.done_by(@login.user)
 
     # mark the next section as seen by the logged user
@@ -17,7 +19,7 @@ begin
     end
 
     # return
-    redirect "/seminars/#{o.seminar.path}/#{o.seminar.name}##{ i<a.size ? i.to_s : '' }"
+    redirect "/seminars/#{o.seminar.path}/#{o.seminar.name}##{ i<a.size ? (i+1).to_s : '' }"
 rescue => e
     # return errors
     redirect "/seminars/#{o.seminar.path}/#{o.seminar.name}?err=#{e.message}"

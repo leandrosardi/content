@@ -1,4 +1,12 @@
 <%
+# i2p account
+i2p_account = BlackStack::I2P::Account.where(:id=>@login.user.id_account).first
+service_name = 'leads'
+# get the service descriptor
+service = BlackStack::I2P::service_descriptor(service_name)
+# get all plans for this service, who are subscriptiosn and who are public
+plan = BlackStack::I2P::plans_descriptor.select { |h| h[:item_number] == 'leads.offer' }.first
+
 path = params[:path].to_s
 name = params[:name].to_s
 privurl = "/seminars/#{path}/#{name}"
@@ -44,7 +52,7 @@ a.each { |section|
         <section class="row-fluid">
             <div class="span12 box seminar">
                 <h1 class='name'><%=name.to_s.encode_html%></h1>
-                <pre class='content'><%=desc.to_s.encode_html%></pre>
+                <pre class='content'><b>Abstract</b><br/><%=desc.to_s.encode_html%></pre>
                 <span class='path'><b>author:</b> <%=s.user.name.to_s.encode_html%></span>
                 <span class='path'><b>path:</b> <a href='/seminars/<%=path%>'><%=path%></a></span>
             </div>
@@ -58,22 +66,32 @@ a.each { |section|
                 seen = seens[i] #section.seen_by?(@login.user)
                 done = dones[i] #section.done_by?(@login.user)
                 done_prev = i==0 ? true : dones[i-1] # if the previous section has been done
+                last = i==a.size-1 # if this is the last section
+                plantable = section.premium && i2p_account.credits(service_name).to_i == 0 # decide if I have to show the plantable
                 i += 1
                 %>
                 <section class="row-fluid" id='<%=i.to_s%>' name='<%=i.to_s%>'>
-                    <div class="span12 box section">
+                    <div class="span12 box <%= plantable ? 'gradient' : '' %> section">
                         <h1 class='name'><%=section.name.to_s.encode_html%></h1>
-                        <pre class='description'><%=section.description.to_s.encode_html%></pre>
+                        <pre class='description'><b>Abstract</b><br/><%=section.description.to_s.encode_html%></pre>
                         <%
                         # first section is always visible
                         # second or further sections are visible only if seen the previous one
                         if i==1 || done_prev
-                        %>
-                        <span class='badge badge-<%=section.premium ? 'green' : 'blue'%>'><%=section.premium ? 'premium' : 'free'%></span> 
-                        <div class='content'>
-                            <%=markdown.render(section.content.to_s)%>
-                        </div>
-                        <%
+                            %>
+                            <%
+                            if !plantable
+                            %>
+                            <span class='badge badge-<%=section.premium ? 'green' : 'blue'%>'><%=section.premium ? 'premium' : 'free'%></span> 
+                            <div class='content'>
+                                <%=markdown.render(section.content.to_s)%>
+                            </div>
+                            <%
+                            else
+                            %>
+                            <!-- plantable -->
+                            <%
+                            end
                         else # if i==1 || done_prev
                         %>
                         <div class='next'>
@@ -89,19 +107,64 @@ a.each { |section|
                         %>
                         
                         <%
-                        # if this is not the last section, and if is not done, show a link to mark it as done and see the next one
-                        if !done
+                        # if the section is not blocked by plantable, and if is not done, show a link to mark it as done and see the next one
+                        if seen && !done && !plantable
                         %>
                         <div class='next'>
                             <center>
                                 <h1>Have You Done?<br/>
-                                <a href='/content/filter_done_section?tid=<%=section.id.to_s.to_guid%>'><i class='icon-arrow-right'></i> Unlock Next Section</a></h1>
+                                <a href='/content/filter_done_section?tid=<%=section.id.to_s.to_guid%>'><%= !last ? "<i class='icon-arrow-right'></i> Unlock Next Section" : 'Mark Seminar as Done!' %></a></h1>
                             </center>
                         </div>
                         <%
                         end # if i < a.size && !done
                         %>
                     </div>
+
+                    <%
+                    if plantable
+                    %>
+                    <div class='premium'>
+                        <!-- premium content - plantable -->
+                        <center>
+                            <h2>
+                                Unlock the Full Seminar<br/>
+                                And Get <u>280 Bonus Emails</u>!
+                            </h2>
+
+                            <div class="plan plan-highlight">
+                                <p class="plan-recommended">One-Time Offer</p>
+                                <h3 class="plan-title"><b>
+                                    Leads <%=plan[:name].to_s.encode_html%> +<br/>
+                                    Unlock All Seminars
+                                </b></h3>
+                                <p class="plan-price">
+                                    <span class="plan-feature-name" style='font-size:16px; text-decoration:line-through;'>$70</span> 
+                                    $<%=plan[:fee].to_i.to_label%>
+                                    <span class="plan-unit">per month</span>
+                                </p>
+                                <ul class="plan-features">
+                                    <li class="plan-feature">
+                                        Full Access <span class="plan-feature-unit">to All Seminars</span><br/>
+                                        <span class="plan-feature-name">Unlock this Seminar, and All The Seminars Belonging this Path.</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <%=plan[:trial_credits].to_i.to_label%> <span class="plan-feature-unit">email <%=service[:unit_name].to_s%></span><br/>
+                                        <span class="plan-feature-name">the first <%=plan[:trial_period]%>
+                                    </li>
+                                    <li class="plan-feature">&infin; <span class="plan-feature-unit">searches</span></li>
+                                    <li class="plan-feature">3 <span class="plan-feature-unit">filters</span><br/><span class="plan-feature-name"> position, industry, location</span></li>
+                                    <li class="plan-feature"><span class="plan-feature-unit">Email Support</span></li>
+                                </ul>
+                                <a href="/settings/filter_create_invoice?item_number=<%=plan[:item_number]%>&n=1" class="plan-button">Go <%=plan[:name].to_s.encode_html%></a>
+                            </div>
+                        </center>
+                    </div>
+                    <%
+                    end # if plantable
+                    %>
+
+
                 </section>
             <%
             } # a.each
