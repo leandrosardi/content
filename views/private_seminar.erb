@@ -72,7 +72,7 @@ a.each { |section|
                 %>
                 <section class="row-fluid" id='<%=i.to_s%>' name='<%=i.to_s%>'>
                     <div class="span12 box <%= !seen || plantable ? 'gradient' : '' %> section">
-                        <h1 class='name'><%=section.name.to_s.encode_html%></h1>
+                        <h1 class='name' style='margin-top:25px;'><%=section.name.to_s.encode_html%></h1>
                         <pre class='description'><b>Abstract</b><br/><%=section.description.to_s.encode_html%></pre>
                         <%
                         # first section is always visible
@@ -89,7 +89,11 @@ a.each { |section|
                             <%
                             else
                             %>
-                            <!-- plantable -->
+                            <center>
+                                <div style='line-height:1.2;padding:25px;color:white;background-color:red;border-radius:15px;font-size:36px;'>
+                                    Upgrade to Unlock Premium Content
+                                </div>
+                            </center>
                             <%
                             end
                         else # if i==1 || done_prev
@@ -131,7 +135,6 @@ a.each { |section|
                                 Unlock the Full Seminar<br/>
                                 And Get <u>280 Bonus Emails</u>!
                             </h2>
-
                             <div class="plan plan-highlight">
                                 <p class="plan-recommended">One-Time Offer</p>
                                 <h3 class="plan-title"><b>

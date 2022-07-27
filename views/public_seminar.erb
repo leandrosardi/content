@@ -4,7 +4,7 @@ name = params[:name].to_s
 privurl = "/seminars/#{path}/#{name}"
 
 # if there is someone logged in, redirect to same seminar in the private view
-#redirect privurl if logged_in?
+redirect privurl if logged_in?
 
 # get the seminar
 s = BlackStack::Content::Seminar.where(:path=>path, :name=>name).first
