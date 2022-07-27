@@ -67,11 +67,11 @@ a.each { |section|
                 done = dones[i] #section.done_by?(@login.user)
                 done_prev = i==0 ? true : dones[i-1] # if the previous section has been done
                 last = i==a.size-1 # if this is the last section
-                plantable = section.premium && i2p_account.credits(service_name).to_i == 0 # decide if I have to show the plantable
+                plantable = section.premium && i2p_account.subscriptions.select { |subs| subs.active }.count == 0 # decide if I have to show the plantable
                 i += 1
                 %>
                 <section class="row-fluid" id='<%=i.to_s%>' name='<%=i.to_s%>'>
-                    <div class="span12 box <%= plantable ? 'gradient' : '' %> section">
+                    <div class="span12 box <%= !seen || plantable ? 'gradient' : '' %> section">
                         <h1 class='name'><%=section.name.to_s.encode_html%></h1>
                         <pre class='description'><b>Abstract</b><br/><%=section.description.to_s.encode_html%></pre>
                         <%
@@ -122,7 +122,7 @@ a.each { |section|
                     </div>
 
                     <%
-                    if plantable
+                    if seen && plantable
                     %>
                     <div class='premium'>
                         <!-- premium content - plantable -->
