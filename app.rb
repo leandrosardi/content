@@ -84,7 +84,9 @@ get "/content/filter_done_section", :auth => true do
 end
 
 # AJAX 
-# TODO: Code Me!
+post "/ajax/content/upload_picture.json", :auth => true do
+    erb :"/extensions/content/views/ajax/upload_picture"
+end
 
 # API
 # TODO: Code Me!

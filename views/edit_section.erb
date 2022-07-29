@@ -107,7 +107,7 @@ content = t.content
 </section>
 
 <!-- Modal Insert Link -->
-<div class="modal fade insert_link" >
+<div class="modal fade insert_link">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3>Insert Link</h3>
@@ -125,7 +125,17 @@ content = t.content
   </div>
 </div>
 
-<script>
+<!-- File Upload Form -->
+<form  method="post" enctype="multipart/form-data" id="upload_file" name='upload_file'>
+    <input type="file" name="file" id='file'>
+    <input type="submit" value="Upload Now" name="submit">
+</form>
+
+<script> 
+// hide popup in order to don't block the clock on other elements if it has not been opened yet
+$('.insert_link').hide();
+$('#upload_file').hide();
+
 $('.btn-bold').click(function() {
     var text = $('#edit').val();
     a = $('#edit').prop("selectionStart");
@@ -180,9 +190,9 @@ $('.btn-insert-link').click(function() {
     a = $('#edit').prop("selectionStart");
     b = $('#edit').prop("selectionEnd");
 
-    $('.insert_link').modal('show');
-
     $('.insert_link').find('#url').val('');
+
+    $('.insert_link').modal('show');
 
     if (a != b) { // there is selected text, then use selected text as caption
         $('.insert_link').find('#caption').val($('#edit').val().substring(a, b));
@@ -191,6 +201,7 @@ $('.btn-insert-link').click(function() {
         $('.insert_link').find('#caption').val('');
         $('.insert_link').find('#caption').focus();
     }
+    $('.insert_link').find('#url').focus();
 });
 
 $('#insert_link').click(function() {
@@ -222,4 +233,29 @@ $('#insert_link').click(function() {
     $('.insert_link').modal('hide');
 });
 
+$('.btn-picture').click(function() {
+    $('#upload_file').find('#file').click();
+    $('#upload_file').submit();
+});
+
+$(document).on('submit','#upload_file',function(e){
+    e.preventDefault();
+alert('a');
+    var formData = new FormData(this);
+    $.ajax({
+        method:"POST",
+        url: "/ajax/content/upload_picture.json",
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+            beforeSend: function(){
+                //$('button[type="submit"]').attr('disabled','disabled');
+        },
+        success: function(data){
+            //$('button[type="submit"]').removeAttr('disabled');
+alert(data);
+        }
+    });
+  });
 </script>

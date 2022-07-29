@@ -28,12 +28,12 @@ BlackStack::Extensions::add ({
         #{ :label => 'readers', :icon => :'user', :screen => :readers, },
         #{ :label => 'profits', :icon => :'money', :screen => :'profits', },
     ],
-=begin 
+
     # add a folder to the storage from where user can download the exports.
     :storage_folders => [
-        { :name => 'signals.exports', },
+        { :name => 'content.pictures', },
     ],
-=end
+
     # deployment routines
     :deployment_routines => [{
         :name => 'install-gems',
