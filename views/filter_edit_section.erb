@@ -9,7 +9,7 @@ begin
     premium_required_product = params['premium_required_product'].to_s
     premium_blured_screenshot_url = params['premium_blured_screenshot_url'].to_s
     type = params['type'].to_i
-    content = params['content'].to_s
+    content = params['edit'].to_s
 
     # save preferences
     @login.user.preference('content.section.edit.name', '', name)

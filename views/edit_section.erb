@@ -235,12 +235,37 @@ $('#insert_link').click(function() {
 
 $('.btn-picture').click(function() {
     $('#upload_file').find('#file').click();
-    $('#upload_file').submit();
+    setTimeout($('#upload_file').submit(), 1000); // wait for 1 second, so the filename is placed in the form
 });
 
-$(document).on('submit','#upload_file',function(e){
+function addPicture(filename) {
+    var text = $('#edit').val();
+    a = $('#edit').prop("selectionStart");
+    b = $('#edit').prop("selectionEnd");
+    url = '<%=CS_HOME_WEBSITE%>/clients/<%=@login.user.account.id.to_guid%>/content.pictures/'+filename;
+    w = '![picture]('+url+')';
+
+    if (a == b) { // there is not selected text. just the cursor in a specific position
+        x = text.substring(0, a);
+        y = text.substring(a, text.length);
+        //alert(x + '-' + y);
+        $('#edit').val(x+w+y);
+        $('#edit').prop('selectionStart', a+w.length);
+        $('#edit').prop('selectionEnd', a+w.length);
+        $('#edit').focus();
+    } else { // there is selected text. replace selected text by new link
+        x = text.substring(0, a);
+        y = text.substring(a, b);
+        z = text.substring(b, text.length);
+        //alert(x + '-' + y + '-' + z);
+        $('#edit').val(x+w+z);
+        $('#edit').prop('selectionStart', a);
+        $('#edit').prop('selectionEnd', w.length);
+    }
+};
+
+$(document).on('submit','#upload_file',function(e) {
     e.preventDefault();
-alert('a');
     var formData = new FormData(this);
     $.ajax({
         method:"POST",
@@ -254,8 +279,14 @@ alert('a');
         },
         success: function(data){
             //$('button[type="submit"]').removeAttr('disabled');
-alert(data);
+            response = JSON.parse(data);
+            if(response.status == 'success') {
+                // add picture to the editor
+                addPicture(response.filename);
+            } else {
+                alert(data);
+            }
         }
     });
-  });
+});
 </script>
