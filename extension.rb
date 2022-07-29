@@ -24,7 +24,8 @@ BlackStack::Extensions::add ({
 
     # what are the screens to add in the leftbar
     :leftbar_icons => [
-        { :label => 'seminars', :icon => :s, :screen => :seminars, },
+        { :label => 'paths', :icon => :random, :screen => :paths, },
+        { :label => 'seminars', :icon => :desktop, :screen => :seminars, },
         #{ :label => 'readers', :icon => :'user', :screen => :readers, },
         #{ :label => 'profits', :icon => :'money', :screen => :'profits', },
     ],

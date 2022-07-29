@@ -1,11 +1,20 @@
 # default screen
-# TODO: Code Me!
+get "/content", :agent => /(.*)/ do
+    redirect2 "/content/signup", params
+end
+get "/content/", :agent => /(.*)/ do
+    redirect2 "/content/signup", params
+end
 
 # public screens (signup/landing page)
-# TODO: Code Me!
+get "/content/signup", :agent => /(.*)/ do
+    erb :"/extensions/content/views/signup", :layout => :"/views/layouts/public"
+end
 
 # public screens (login page)
-# TODO: Code Me!
+get "/content/login", :agent => /(.*)/ do
+    erb :"/extensions/content/views/login", :layout => :"/views/layouts/public"
+end
 
 # internal app screens
 get "/content/seminars", :auth => true, :agent => /(.*)/ do
@@ -36,6 +45,22 @@ end
 # private URLs of seminars, for the loggedin users
 get "/seminars/:path/:name", :auth => true, :agent => /(.*)/ do
     erb :"/extensions/content/views/private_seminar", :layout => :"/views/layouts/core"
+end
+
+# show all the available paths
+get "/seminars/", :auth => true, :agent => /(.*)/ do
+    erb :"/extensions/content/views/view_paths", :layout => :"/views/layouts/core"
+end
+get "/seminars", :auth => true, :agent => /(.*)/ do
+    erb :"/extensions/content/views/view_paths", :layout => :"/views/layouts/core"
+end
+
+# show all the available seminars into a path
+get "/seminars/:path/", :auth => true, :agent => /(.*)/ do
+    erb :"/extensions/content/views/view_seminars", :layout => :"/views/layouts/core"
+end
+get "/seminars/:path", :auth => true, :agent => /(.*)/ do
+    erb :"/extensions/content/views/view_seminars", :layout => :"/views/layouts/core"
 end
 
 # filters
