@@ -1,9 +1,9 @@
 # default screen
 get "/content", :agent => /(.*)/ do
-    redirect2 "/content/signup", params
+    redirect2 "/content/seminars", params
 end
 get "/content/", :agent => /(.*)/ do
-    redirect2 "/content/signup", params
+    redirect2 "/content/seminars", params
 end
 
 # public screens (signup/landing page)
