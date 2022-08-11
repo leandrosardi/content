@@ -1,7 +1,7 @@
 BlackStack::Extensions::add ({
     # descriptive name and descriptor
     :name => 'Content',
-    :description => 'Get paid for your knowledge. Publish online seminars and courses inside a user interface designed to get readers to purchasing.',
+    :description => 'Publish online seminars and courses inside a user interface designed to get readers to purchasing.',
 
     # setup the url of the repository for installation and updates
     :repo_url => 'https://github.com/leandrosardi/content',
@@ -16,11 +16,11 @@ BlackStack::Extensions::add ({
     # what is the section to add this extension in either the top-bar, the footer, the dashboard.
     :services_section => 'Services for Marketers',
     # show this extension as a service in the top bar?
-    :show_in_top_bar => true,
+    :show_in_top_bar => false,
     # show this extension as a service in the footer?
-    :show_in_footer => true,
+    :show_in_footer => false,
     # show this extension as a service in the dashboard?
-    :show_in_dashboard => true,
+    :show_in_dashboard => false,
 
     # what are the screens to add in the leftbar
     :leftbar_icons => [
