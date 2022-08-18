@@ -22,8 +22,8 @@ desc = s.description
         <!-- edit seminar -->
         <section class="row-fluid">
             <div class="span12 box seminar">
-                <h1 class='name'><%=name.to_s.encode_html%></h1>
-                <pre class='content'><b>Abstract</b><br/><%=desc.to_s.encode_html%></pre>
+                <h1 class='name'><%=BlackStack::Content::Seminar.merge(name.to_s).encode_html%></h1>
+                <pre class='content'><b>Abstract</b><br/><%=BlackStack::Content::Seminar.merge(desc.to_s).encode_html%></pre>
                 <span class='path'><b>author:</b> <%=s.user.name.to_s.encode_html%></span>
                 <span class='path'><b>path:</b> <a href='/seminars/<%=path%>'><%=path%></a></span>
             </div>
@@ -39,15 +39,15 @@ desc = s.description
                 %>
                 <section class="row-fluid" id='<%=i.to_s%>' name='<%=i.to_s%>'>
                     <div class="span12 box section">
-                        <h1 class='name'><%=section.name.to_s.encode_html%></h1>
-                        <pre class='description'><b>Abstract</b><br/><%=section.description.to_s.encode_html%></pre>
+                        <h1 class='name'><%=BlackStack::Content::Seminar.merge(section.name.to_s).encode_html%></h1>
+                        <pre class='description'><b>Abstract</b><br/><%=BlackStack::Content::Seminar.merge(section.description.to_s).encode_html%></pre>
 
                         <%
                         if i==1 && !section.premium # public pages show the first section, if it is not premium
                         %>
                         <span class='badge badge-<%=section.premium ? 'green' : 'blue'%>'><%=section.premium ? 'premium' : 'free'%></span> 
                         <div class='content'>
-                            <%=markdown.render(section.content.to_s)%>
+                            <%=markdown.render(BlackStack::Content::Seminar.merge(section.content.to_s))%>
                         </div>
                         <div class='done'>
                             <%
