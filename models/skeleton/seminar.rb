@@ -5,6 +5,28 @@ module BlackStack
             one_to_many :sections, :class=>:'BlackStack::Content::Section', :key=>:id_seminar
             one_to_many :versions, :class=>:'BlackStack::Content::Version', :key=>:id_seminar
         
+            TYPE_PROGRESSIVE_SEMINAR = 0
+            TYPE_PLAIN_ARTICLES = 1
+
+            def self.types()
+                [TYPE_PROGRESSIVE_SEMINAR, TYPE_PLAIN_ARTICLES]
+            end
+
+            def self.type_name(i)
+                case i
+                when TYPE_PROGRESSIVE_SEMINAR
+                    'Progressive Seminar'
+                when TYPE_PLAIN_ARTICLES
+                    'Plain Article'
+                else
+                    'Unknown'
+                end
+            end
+
+            def type_name
+                BlackStack::Content::Seminar.type_name(self.type)
+            end
+
             # replace some mergetags with the actual values in config.rb file
             def self.merge(s)
                 ret = s.dup

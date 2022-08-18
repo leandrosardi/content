@@ -39,12 +39,30 @@ end
 
 # public URLs of seminars
 get "/seminars/pub/:path/:name", :agent => /(.*)/ do
-    erb :"/extensions/content/views/public_seminar", :layout => :"/views/layouts/public"
+    path = params[:path].to_s
+    name = params[:name].to_s
+    s = BlackStack::Content::Seminar.where(:path=>path, :name=>name).first
+    if s.type == 0 # BlackStack::Content::Seminar::TYPE_PROGRESSIVE_SEMINAR
+        erb :"/extensions/content/views/public_seminar", :layout => :"/views/layouts/public"
+    elsif s.type == 1 # BlackStack::Content::Seminar::TYPE_PLAIN_ARTICLE
+        erb :"/extensions/content/views/public_article", :layout => :"/views/layouts/public"
+    else
+        halt 404
+    end
 end
 
 # private URLs of seminars, for the loggedin users
 get "/seminars/:path/:name", :auth => true, :agent => /(.*)/ do
-    erb :"/extensions/content/views/private_seminar", :layout => :"/views/layouts/core"
+    path = params[:path].to_s
+    name = params[:name].to_s
+    s = BlackStack::Content::Seminar.where(:path=>path, :name=>name).first
+    if s.type == 0 # BlackStack::Content::Seminar::TYPE_PROGRESSIVE_SEMINAR
+        erb :"/extensions/content/views/private_seminar", :layout => :"/views/layouts/core"
+    elsif s.type == 1 # BlackStack::Content::Seminar::TYPE_PLAIN_ARTICLE
+        erb :"/extensions/content/views/private_article", :layout => :"/views/layouts/core"
+    else
+        halt 404
+    end
 end
 
 # show all the available paths

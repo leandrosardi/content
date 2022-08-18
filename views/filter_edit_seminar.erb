@@ -5,6 +5,7 @@ begin
     path = params['path'].to_s
     publ = params['public'].nil? ? false : params['public'].to_s == 'on'
     desc = params['description'].to_s
+    type = params['type'].to_s
 
     # validate: the name is not empty
     err << "Name is required." if name.empty?
@@ -32,6 +33,7 @@ begin
     o.path = path.downcase
     o.description = desc
     o.public = publ
+    o.type = type
     o.save
 
     # return

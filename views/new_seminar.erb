@@ -4,6 +4,7 @@ name = @login.user.preference('content.seminar.new.name', '', nil)
 path = @login.user.preference('content.seminar.new.path', '', nil)
 publ = @login.user.preference('content.seminar.new.public', false, nil)
 desc = @login.user.preference('content.seminar.new.description', '', nil)
+type = @login.user.preference('content.seminar.new.type', '', nil)
 %>
 
 <!-- NavBar -->
@@ -39,9 +40,26 @@ desc = @login.user.preference('content.seminar.new.description', '', nil)
                     </label>
                 </div>
 
-                <label class="control-label" for="description">Description</label>
-                <div class="controls">
-                    <textarea id="description" name='description' placeholder="Description" rows=5 style='width:100%;' maxlength=4000><%=desc.to_s.encode_html%></textarea>
+                <div class="control-group">
+                    <label class="control-label" for="type">Type</label>
+                    <div class="controls">
+                        <select id="type" name='type' placeholder="Type">
+                            <%
+                            BlackStack::Content::Seminar.types.each { |type|
+                            %>
+                            <option value='<%=type%>' <%=s.type==type ? 'selected' : ''%>><%=BlackStack::Content::Seminar.type_name(type).encode_html%></option>
+                            <%
+                            } # BlackStack::Content::Seminar.types.each { |type|
+                            %>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="description">Description</label>
+                    <div class="controls">
+                        <textarea id="description" name='description' placeholder="Description" rows=5 style='width:100%;' maxlength=4000><%=desc.to_s.encode_html%></textarea>
+                    </div>
                 </div>
             </div>
 
