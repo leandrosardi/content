@@ -10,6 +10,7 @@ name = s.name
 path = s.path
 publ = s.public
 desc = s.description
+type = s.type
 shwa = s.show_abstract
 shwb = s.show_free_premium_badges
 shwt = s.show_author
@@ -73,11 +74,11 @@ shwp = s.show_path
                             <div class="controls">
                                 <select id="type" name='type' placeholder="Type">
                                     <%
-                                    BlackStack::Content::Seminar.types.each { |type|
+                                    BlackStack::Content::Seminar.types.each { |t|
                                     %>
-                                    <option value='<%=type%>' <%=s.type==type ? 'selected' : ''%>><%=BlackStack::Content::Seminar.type_name(type).encode_html%></option>
+                                    <option value='<%=t%>' <%=type==t ? 'selected' : ''%>><%=BlackStack::Content::Seminar.type_name(t).encode_html%></option>
                                     <%
-                                    } # BlackStack::Content::Seminar.types.each { |type|
+                                    } # BlackStack::Content::Seminar.types.each { |t|
                                     %>
                                 </select>
                             </div>
