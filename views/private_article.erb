@@ -91,7 +91,7 @@ a.each { |section|
                 i += 1
                 %>
                 <section class="row-fluid" id='<%=i.to_s%>' name='<%=i.to_s%>'>
-                    <div class="span12 box <%= !seen || plantable ? 'gradient' : '' %> section">
+                    <div class="span12 box section">
                         <h1 class='name' style='margin-top:25px;'><%=BlackStack::Content::Seminar.merge(section.name.to_s).encode_html%></h1>
                         <%
                         if s.show_abstract
@@ -102,13 +102,8 @@ a.each { |section|
                         %>
         
                         <%
-                        # first section is always visible
-                        # second or further sections are visible only if seen the previous one
-                        if i==1 || done_prev
-                            %>
-                            <%
-                            if !plantable
-                            %>
+                        if !plantable
+                        %>
 
                             <%
                             if s.show_free_premium_badges
@@ -121,42 +116,16 @@ a.each { |section|
                             <div class='content'>
                                 <%=markdown.render(BlackStack::Content::Seminar.merge(section.content.to_s))%>
                             </div>
-                            <%
-                            else
-                            %>
+                        <%
+                        else
+                        %>
                             <center>
                                 <div style='line-height:1.2;padding:25px;color:white;background-color:red;border-radius:15px;font-size:36px;'>
                                     Upgrade to Unlock Premium Content
                                 </div>
                             </center>
-                            <%
-                            end
-                        else # if i==1 || done_prev
-                        %>
-                        <div class='next'>
-                            <center>
-                                <h3 style='color:rgb(120,120,120);'>
-                                    Complete Previous Sections<br/>
-                                    To Unlock This One.
-                                </h3>
-                            </center>
-                        </div>
                         <%
-                        end # if i==1 || done_prev
-                        %>
-                        
-                        <%
-                        # if the section is not blocked by plantable, and if is not done, show a link to mark it as done and see the next one
-                        if seen && !done && !plantable
-                        %>
-                        <div class='next'>
-                            <center>
-                                <h1>Have You Done?<br/>
-                                <a href='/content/filter_done_section?tid=<%=section.id.to_s.to_guid%>'><%= !last ? "<i class='icon-arrow-right'></i> Unlock Next Section" : 'Mark Seminar as Done!' %></a></h1>
-                            </center>
-                        </div>
-                        <%
-                        end # if i < a.size && !done
+                        end
                         %>
                     </div>
 
@@ -215,14 +184,12 @@ a.each { |section|
             <%
             i = 0
             s.sections.sort_by { |t| t.name.to_s }.select { |t| t.delete_time.nil? }.each { |section|
-                seen = seens[i] #section.seen_by?(@login.user)
-                done = dones[i] #section.done_by?(@login.user)
                 i += 1
             %>
             <section class="row-fluid section">
                 <div class="span12">
-                    <a href='#<%=i%>' <%=seen ? '' : 'class="disabled"'%>>
-                        <i style='color:<%= done ? 'green' : 'gray'%>;' class='icon-<%= !done ? 'time' : 'ok'%>'></i> <%=section.name.to_s.encode_html%>
+                    <a href='#<%=i%>'>
+                        <i class='icon-ok'></i> <%=BlackStack::Content::Seminar.merge(section.name.to_s).encode_html%>
                     </a>
                 </div>
             </section>

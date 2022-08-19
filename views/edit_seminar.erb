@@ -10,6 +10,11 @@ name = s.name
 path = s.path
 publ = s.public
 desc = s.description
+type = s.type
+shwa = s.show_abstract
+shwb = s.show_free_premium_badges
+shwt = s.show_author
+shwp = s.show_path
 %>
 
 <!-- NavBar -->
@@ -60,12 +65,54 @@ desc = s.description
                         <div class="controls">
                             <label class="checkbox">
                                 <input type="checkbox" id='public' name='public' <%=publ ? 'checked' : ''%>> Public
+                                <p class='description'>Users don't require login to see this.</p>
                             </label>
                         </div>
 
-                        <label class="control-label" for="description">Description</label>
+                        <div class="control-group">
+                            <label class="control-label" for="type">Type</label>
+                            <div class="controls">
+                                <select id="type" name='type' placeholder="Type">
+                                    <%
+                                    BlackStack::Content::Seminar.types.each { |t|
+                                    %>
+                                    <option value='<%=t%>' <%=type==t ? 'selected' : ''%>><%=BlackStack::Content::Seminar.type_name(t).encode_html%></option>
+                                    <%
+                                    } # BlackStack::Content::Seminar.types.each { |t|
+                                    %>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="controls">
-                            <textarea id="description" name='description' placeholder="Description" rows=5 style='width:100%;' maxlength=4000><%=desc.to_s.encode_html%></textarea>
+                            <label class="checkbox">
+                                <input type="checkbox" id='show_abstract' name='show_abstract' <%=shwa ? 'checked' : ''%>> Show Abstracts
+                            </label>
+                        </div>
+                        
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox" id='show_free_premium_badges' name='show_free_premium_badges' <%=shwb ? 'checked' : ''%>> Show Badges
+                            </label>
+                        </div>
+                        
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox" id='show_author' name='show_author' <%=shwt ? 'checked' : ''%>> Show Author
+                            </label>
+                        </div>
+
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox" id='show_path' name='show_path' <%=shwp ? 'checked' : ''%>> Show Path
+                            </label>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="description">Description</label>
+                            <div class="controls">
+                                <textarea id="description" name='description' placeholder="Description" rows=5 style='width:100%;' maxlength=4000><%=desc.to_s.encode_html%></textarea>
+                            </div>
                         </div>
                     </div>
 
@@ -85,10 +132,10 @@ desc = s.description
         %>
         <section class="row-fluid" id='<%=section.id.to_guid%>' name='<%=section.id.to_guid%>'>
             <div class="span12 box section">
-                <h2><%=section.name.to_s.encode_html%></h2>
-                <pre class='description'><%=section.description.to_s.encode_html%></pre>
+                <h2><%=BlackStack::Content::Seminar.merge(section.name.to_s).encode_html%></h2>
+                <pre class='description'><%=BlackStack::Content::Seminar.merge(section.description.to_s).encode_html%></pre>
                 <div class='content'>
-                    <%=markdown.render(section.content.to_s)%>
+                    <%=markdown.render(BlackStack::Content::Seminar.merge(section.content.to_s))%>
                 </div>
             </div>
         </section>

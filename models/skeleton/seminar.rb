@@ -5,6 +5,50 @@ module BlackStack
             one_to_many :sections, :class=>:'BlackStack::Content::Section', :key=>:id_seminar
             one_to_many :versions, :class=>:'BlackStack::Content::Version', :key=>:id_seminar
         
+            TYPE_PROGRESSIVE_SEMINAR = 0
+            TYPE_PLAIN_ARTICLES = 1
+
+            def self.types()
+                [TYPE_PROGRESSIVE_SEMINAR, TYPE_PLAIN_ARTICLES]
+            end
+
+            def self.type_name(i)
+                case i
+                when TYPE_PROGRESSIVE_SEMINAR
+                    'Progressive Seminar'
+                when TYPE_PLAIN_ARTICLES
+                    'Plain Article'
+                else
+                    'Unknown'
+                end
+            end
+
+            def type_name
+                BlackStack::Content::Seminar.type_name(self.type)
+            end
+
+            # replace some mergetags with the actual values in config.rb file
+            def self.merge(s)
+                ret = s.dup
+                # replace merge-tags with no fallback values
+                ret.gsub!(/#{Regexp.escape('{APP_NAME}')}/, APP_NAME)
+                ret.gsub!(/#{Regexp.escape('{APP_SHORT_NAME}')}/, APP_SHORT_NAME)
+                ret.gsub!(/#{Regexp.escape('{HELPDESK_EMAIL}')}/, HELPDESK_EMAIL)
+                ret.gsub!(/#{Regexp.escape('{COMPANY_NAME}')}/, COMPANY_NAME)
+                ret.gsub!(/#{Regexp.escape('{COMPANY_TYPE}')}/, COMPANY_TYPE)
+                ret.gsub!(/#{Regexp.escape('{COMPANY_ADDRESS}')}/, COMPANY_ADDRESS)
+                ret.gsub!(/#{Regexp.escape('{COMPANY_PHONE}')}/, COMPANY_PHONE)
+                ret.gsub!(/#{Regexp.escape('{COMPANY_URL}')}/, COMPANY_URL)
+                ret.gsub!(/#{Regexp.escape('{HOME_WEBSITE}')}/, CS_HOME_WEBSITE)
+                ret.gsub!(/#{Regexp.escape('{TERMS_URL}')}/, TERMS_URL)
+                ret.gsub!(/#{Regexp.escape('{PRIVACY_URL}')}/, PRIVACY_URL)
+                ret.gsub!(/#{Regexp.escape('{CANCEL_URL}')}/, CANCEL_URL)
+                ret.gsub!(/#{Regexp.escape('{HELPDESK_URL}')}/, HELPDESK_URL)
+                ret.gsub!(/#{Regexp.escape('{TIMEZONE}')}/, DEFAULT_TIMEZONE_SHORT_DESCRIPTION)
+                # return
+                ret
+            end
+            
             # Retrurn false if the path exists in other seminar of another account.
             # Return true if the path is available.
             def self.available?(path, account)

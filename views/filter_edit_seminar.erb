@@ -5,6 +5,11 @@ begin
     path = params['path'].to_s
     publ = params['public'].nil? ? false : params['public'].to_s == 'on'
     desc = params['description'].to_s
+    type = params['type'].to_s
+    shwa = params['show_abstract'].nil? ? false : params['show_abstract'].to_s == 'on'
+    shwb = params['show_free_premium_badges'].nil? ? false : params['show_free_premium_badges'].to_s == 'on'
+    shwt = params['show_author'].nil? ? false : params['show_author'].to_s == 'on'
+    shwp = params['show_path'].nil? ? false : params['show_path'].to_s == 'on'
 
     # validate: the name is not empty
     err << "Name is required." if name.empty?
@@ -32,6 +37,11 @@ begin
     o.path = path.downcase
     o.description = desc
     o.public = publ
+    o.type = type
+    o.show_abstract = shwa
+    o.show_free_premium_badges = shwb
+    o.show_author = shwt
+    o.show_path = shwp
     o.save
 
     # return

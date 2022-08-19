@@ -46,7 +46,6 @@ desc = s.description
                 <%
                 end #if s.show_path
                 %>
-
             </div>
         </section>
 
@@ -71,7 +70,7 @@ desc = s.description
                         %>
 
                         <%
-                        if i==1 && !section.premium # public pages show the first section, if it is not premium
+                        if !section.premium # public pages show the first section, if it is not premium
                         %>
 
                         <%
@@ -84,19 +83,6 @@ desc = s.description
 
                         <div class='content'>
                             <%=markdown.render(BlackStack::Content::Seminar.merge(section.content.to_s))%>
-                        </div>
-                        <div class='done'>
-                            <%
-                            if a.size > 1 # link to the 2nd section
-                            %>
-                            <center><h1><a href='<%=privurl%>#2'>Unlock Next Section!</a></h1></center>
-                            <%
-                            else
-                            %>
-                            <center><h1><a href='<%=privurl%>'>Unlock Next Section!</a></h1></center>
-                            <%
-                            end
-                            %>
                         </div>
                         <%
                         else # if i==1 # public pages show the first section
@@ -124,7 +110,7 @@ desc = s.description
             %>
             <section class="row-fluid section">
                 <div class="span12">
-                    <a href='#<%=i%>' <%=(i==1) ? '' : 'class="disabled"'%>><i class='icon-chevron-right'></i> <%=section.name.to_s.encode_html%></a>
+                    <a href='#<%=i%>'><i class='icon-chevron-right'></i> <%=section.name.to_s.encode_html%></a>
                 </div>
             </section>
             <%

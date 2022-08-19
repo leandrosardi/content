@@ -5,12 +5,22 @@ begin
     path = params['path'].to_s
     publ = params['public'].nil? ? false : params['public'].to_s == 'on'
     desc = params['description'].to_s
+    type = params['type'].to_s
+    shwa = params['show_abstract'].nil? ? false : params['show_abstract'].to_s == 'on'
+    shwb = params['show_free_premium_badges'].nil? ? false : params['show_free_premium_badges'].to_s == 'on'
+    shwt = params['show_author'].nil? ? false : params['show_author'].to_s == 'on'
+    shwp = params['show_path'].nil? ? false : params['show_path'].to_s == 'on'
 
     # save preferences
     @login.user.preference('content.seminar.new.name', '', name)
     @login.user.preference('content.seminar.new.path', '', path)
     @login.user.preference('content.seminar.new.public', false, publ)
     @login.user.preference('content.seminar.new.description', '', desc)
+    @login.user.preference('content.seminar.new.type', '', type)
+    @login.user.preference('content.seminar.new.show_abstract', true, shwa)
+    @login.user.preference('content.seminar.new.show_free_premium_badges', true, shwb)
+    @login.user.preference('content.seminar.new.show_author', true, shwt)
+    @login.user.preference('content.seminar.new.show_path', true, shwp)
 
     # validate: the name is not empty
     err << "Name is required." if name.empty?
@@ -41,6 +51,11 @@ begin
     o.path = path.downcase
     o.description = desc
     o.public = publ
+    o.type = type
+    o.show_abstract = shwa
+    o.show_free_premium_badges = shwb
+    o.show_author = shwt
+    o.show_path = shwp
     o.save
 
     # return
