@@ -11,7 +11,7 @@ path = params[:path].to_s
 name = params[:name].to_s
 privurl = "/seminars/#{path}/#{name}"
 
-# get the seminar
+# get the seminar/leads/results
 s = BlackStack::Content::Seminar.where(:path=>path, :name=>name).first
 
 # get the array of sections
@@ -39,7 +39,7 @@ a.each { |section|
 <!-- NavBar -->
 <div class="mynavbar mysticky">
 	<section class="row-fluid">	
-		<div class="span6">
+		<div class="span12">
             <%=nav3("Seminars", "/seminars", path.gsub('-', ' ').capitalize, "/seminars/#{path}", name.gsub('-', ' ').capitalize)%>
 		</div>
 	</section>
@@ -128,50 +128,6 @@ a.each { |section|
                         end
                         %>
                     </div>
-
-                    <%
-                    if seen && plantable
-                    %>
-                    <div class='premium'>
-                        <!-- premium content - plantable -->
-                        <center>
-                            <h2>
-                                Unlock the Full Seminar<br/>
-                                And Get <u>280 Bonus Emails</u>!
-                            </h2>
-                            <div class="plan plan-highlight">
-                                <p class="plan-recommended">One-Time Offer</p>
-                                <h3 class="plan-title"><b>
-                                    Leads <%=plan[:name].to_s.encode_html%> +<br/>
-                                    Unlock All Seminars
-                                </b></h3>
-                                <p class="plan-price">
-                                    <span class="plan-feature-name" style='font-size:16px; text-decoration:line-through;'>$70</span> 
-                                    $<%=plan[:fee].to_i.to_label%>
-                                    <span class="plan-unit">per month</span>
-                                </p>
-                                <ul class="plan-features">
-                                    <li class="plan-feature">
-                                        Full Access <span class="plan-feature-unit">to All Seminars</span><br/>
-                                        <span class="plan-feature-name">Unlock this Seminar, and All The Seminars Belonging this Path.</span>
-                                    </li>
-                                    <li class="plan-feature">
-                                        <%=plan[:trial_credits].to_i.to_label%> <span class="plan-feature-unit">email <%=service[:unit_name].to_s%></span><br/>
-                                        <span class="plan-feature-name">the first <%=plan[:trial_period]%>
-                                    </li>
-                                    <li class="plan-feature">&infin; <span class="plan-feature-unit">searches</span></li>
-                                    <li class="plan-feature">3 <span class="plan-feature-unit">filters</span><br/><span class="plan-feature-name"> position, industry, location</span></li>
-                                    <li class="plan-feature"><span class="plan-feature-unit">Email Support</span></li>
-                                </ul>
-                                <a href="/settings/filter_create_invoice?item_number=<%=plan[:item_number]%>&n=1" class="plan-button">Go <%=plan[:name].to_s.encode_html%></a>
-                            </div>
-                        </center>
-                    </div>
-                    <%
-                    end # if plantable
-                    %>
-
-
                 </section>
             <%
             } # a.each
@@ -179,23 +135,25 @@ a.each { |section|
         %>
     </div>
 
-    <div class="span3 box sections">
-            <h4>Sections</h4>
-            <%
-            i = 0
-            s.sections.sort_by { |t| t.name.to_s }.select { |t| t.delete_time.nil? }.each { |section|
-                i += 1
-            %>
-            <section class="row-fluid section">
-                <div class="span12">
-                    <a href='#<%=i%>'>
-                        <i class='icon-ok'></i> <%=BlackStack::Content::Seminar.merge(section.name.to_s).encode_html%>
-                    </a>
-                </div>
-            </section>
-            <%
-            }
-            %>
+    <div class="span3 box sections-contaier">
+    <div class='sections'>
+        <h4>Sections</h4>
+        <%
+        i = 0
+        s.sections.sort_by { |t| t.name.to_s }.select { |t| t.delete_time.nil? }.each { |section|
+            i += 1
+        %>
+        <section class="row-fluid section">
+            <div class="span12">
+                <a href='#<%=i%>'>
+                    <i class='icon-ok'></i> <%=BlackStack::Content::Seminar.merge(section.name.to_s).encode_html%>
+                </a>
+            </div>
+        </section>
+        <%
+        }
+        %>
+    </div>
     </div>
 
 </section>

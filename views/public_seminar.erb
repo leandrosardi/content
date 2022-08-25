@@ -15,6 +15,9 @@ markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tabl
 # load preferences
 publ = s.public
 desc = s.description
+
+# if the seminar is not public, redirect to the private page.
+redirect privurl if !publ
 %>
 
 <section class="row-fluid">
@@ -53,13 +56,14 @@ desc = s.description
         <!-- draw section -->
         <%
         i = 0
+        stop_showing = false
         a = s.sections.sort_by { |t| t.name.to_s }.select { |t| t.delete_time.nil? }
         if a.size > 0
             a.each { |section|
                 i += 1
                 %>
                 <section class="row-fluid" id='<%=i.to_s%>' name='<%=i.to_s%>'>
-                    <div class="span12 box section">
+                    <div class="span12 box <%= section.premium ? 'gradient' : '' %> section">
                         <h1 class='name'><%=BlackStack::Content::Seminar.merge(section.name.to_s).encode_html%></h1>
                         
                         <%
@@ -71,51 +75,56 @@ desc = s.description
                         %>
 
                         <%
-                        if i==1 && !section.premium # public pages show the first section, if it is not premium
+                        if !section.premium # public pages show all non-premium sections
                         %>
-
-                        <%
-                        if s.show_free_premium_badges
-                        %>
-                        <span class='badge badge-<%=section.premium ? 'green' : 'blue'%>'><%=section.premium ? 'premium' : 'free'%></span> 
-                        <%
-                        end # if s.show_free_premium_badges
-                        %>
-
-                        <div class='content'>
-                            <%=markdown.render(BlackStack::Content::Seminar.merge(section.content.to_s))%>
-                        </div>
-                        <div class='done'>
                             <%
-                            if a.size > 1 # link to the 2nd section
+                            if s.show_free_premium_badges
                             %>
-                            <center><h1><a href='<%=privurl%>#2'>Unlock Next Section!</a></h1></center>
+                            <span class='badge badge-<%=section.premium ? 'green' : 'blue'%>'><%=section.premium ? 'premium' : 'free'%></span> 
+                            <%
+                            end # if s.show_free_premium_badges
+                            %>
+                            <div class='content'>
+                                <%=markdown.render(BlackStack::Content::Seminar.merge(section.content.to_s))%>
+                            </div>
+                        <%
+                        else # section.premium # public pages show all non-premium sections
+                            if !stop_showing
+                            %>
+                                <center>
+                                    <a href='<%=privurl%>#<%=i%>' class='upgrade'>
+                                        <div>
+                                            Login to Access<br/>The Full Content
+                                        </div>
+                                    </a>
+                                </center>
                             <%
                             else
-                            %>
-                            <center><h1><a href='<%=privurl%>'>Unlock Next Section!</a></h1></center>
+                                %>
+                                <center>
+                                    <a href='<%=privurl%>#<%=i%>'>
+                                        <div>
+                                            Login to Access The Full Content
+                                        </div>
+                                    </a>
+                                </center>
                             <%
-                            end
-                            %>
-                        </div>
-                        <%
-                        else # if i==1 # public pages show the first section
-                        %>
-                        <div class='content'>
-                            <center><h1><a href='<%=privurl%>#<%=i.to_s%>'>Unlock This Section!</a></h1></center>
-                        </div>
-                        <%
-                        end
+                            end # if !stop_showing
+                        end # section.premium # public pages show all non-premium sections
                         %>
                     </div>
                 </section>
                 <%
+
+                # stop drawing sections if the current one is blocked because it is premium
+                stop_showing=true if section.premium
             } # each section
         end # if a.size > 0
         %>
     </div>
 
-    <div class="span3 box"> <!-- use class sections to make it scrolling -->
+    <div class="span3 box sections-contaier">
+        <div class='sections'>
             <h4>Sections</h4>
             <%
             i = 0
@@ -124,12 +133,13 @@ desc = s.description
             %>
             <section class="row-fluid section">
                 <div class="span12">
-                    <a href='#<%=i%>' <%=(i==1) ? '' : 'class="disabled"'%>><i class='icon-chevron-right'></i> <%=section.name.to_s.encode_html%></a>
+                    <a href='#<%=i%>' <%=!section.premium ? '' : 'class="disabled"'%>><i class='icon-chevron-right'></i> <%=section.name.to_s.encode_html%></a>
                 </div>
             </section>
             <%
             }
             %>
+        </div>
     </div>
 
 </section>

@@ -55,6 +55,11 @@ div.section div.content {
     margin-bottom: 15px;
 }
 
+div.section div.content p img {
+    border: 2px dashed red;
+    box-shadow: 9px 9px 15px #999;
+}
+
 div.section div.premium {
     margin-top: 25px;
     margin-bottom: 15px;
@@ -67,14 +72,50 @@ div.section div.done {
     border-top: 1px solid #ccc;
 }
 
+div.sections-contaier {
+    position: fixed;
+    right: 5px;
+    top: 45px;
+    bottom: 0px;
+    overflow-y: scroll;
+}
 
-div.sections {
-    position: fixed;  
-    right: 0px;
+a.upgrade {
+    text-decoration:none;
+}
+
+a.upgrade div {
+    line-height:1.2;
+    padding:25px;
+    color:white;
+    background-color:red;
+    border-radius:15px;
+    font-size:36px;
+    text-decoration:none;
+    line-height: 1.8;
+}
+
+div.sections-contaier div.sections {
+    position: absolute;  
+}
+
+@media (max-width: 767px) {
+    div.sections-contaier {
+        visibility:hidden;
+    }
+
+    div.sections-contaier div.sections  {
+        visibility:hidden;
+    }
+}
+
+div.sections section.section {
+    margin-top: 5px;
+    padding-top: 5px;
 }
 
 div.sections section.section a.disabled {
-    color: rgb(166,210,255);
+    color: gray;
 }
 
 div.gradient {
