@@ -68,31 +68,10 @@ desc = s.description
                         <%
                         end # if s.show_abstract
                         %>
-
-                        <%
-                        if !section.premium # public pages show the first section, if it is not premium
-                        %>
-
-                        <%
-                        if s.show_free_premium_badges
-                        %>
-                        <span class='badge badge-<%=section.premium ? 'green' : 'blue'%>'><%=section.premium ? 'premium' : 'free'%></span> 
-                        <%
-                        end # if s.show_free_premium_badges
-                        %>
-
+                        
                         <div class='content'>
                             <%=markdown.render(BlackStack::Content::Seminar.merge(section.content.to_s))%>
                         </div>
-                        <%
-                        else # if i==1 # public pages show the first section
-                        %>
-                        <div class='content'>
-                            <center><h1><a href='<%=privurl%>#<%=i.to_s%>'>Unlock This Section!</a></h1></center>
-                        </div>
-                        <%
-                        end
-                        %>
                     </div>
                 </section>
                 <%

@@ -87,7 +87,6 @@ a.each { |section|
                 done = dones[i] #section.done_by?(@login.user)
                 done_prev = i==0 ? true : dones[i-1] # if the previous section has been done
                 last = i==a.size-1 # if this is the last section
-                plantable = section.premium && i2p_account.subscriptions.select { |subs| subs.active }.count == 0 # decide if I have to show the plantable
                 i += 1
                 %>
                 <section class="row-fluid" id='<%=i.to_s%>' name='<%=i.to_s%>'>
@@ -101,31 +100,9 @@ a.each { |section|
                         end # if s.show_abstract
                         %>
         
-                        <%
-                        if !plantable
-                        %>
-                            <%
-                            if s.show_free_premium_badges
-                            %>
-                            <span class='badge badge-<%=section.premium ? 'green' : 'blue'%>'><%=section.premium ? 'premium' : 'free'%></span> 
-                            <%
-                            end # if s.show_free_premium_badges
-                            %>    
-
-                            <div class='content'>
-                                <%=markdown.render(BlackStack::Content::Seminar.merge(section.content.to_s))%>
-                            </div>
-                        <%
-                        else
-                        %>
-                            <center>
-                                <div style='line-height:1.2;padding:25px;color:white;background-color:red;border-radius:15px;font-size:36px;'>
-                                    Upgrade to Unlock Premium Content
-                                </div>
-                            </center>
-                        <%
-                        end
-                        %>
+                        <div class='content'>
+                            <%=markdown.render(BlackStack::Content::Seminar.merge(section.content.to_s))%>
+                        </div>
                     </div>
                 </section>
             <%
