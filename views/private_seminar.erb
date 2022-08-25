@@ -9,7 +9,6 @@ plan = BlackStack::I2P::plans_descriptor.select { |h| h[:item_number] == 'leads.
 
 path = params[:path].to_s
 name = params[:name].to_s
-privurl = "/seminars/#{path}/#{name}"
 
 # get the seminar
 s = BlackStack::Content::Seminar.where(:path=>path, :name=>name).first
@@ -82,16 +81,21 @@ a.each { |section|
         <%
         i = 0
         if a.size > 0
+            stop_showing = false
             a.each { |section|
+                # 
+                privurl = section.premium_blured_screenshot_url.to_s
+                # 
                 seen = seens[i] #section.seen_by?(@login.user)
                 done = dones[i] #section.done_by?(@login.user)
                 done_prev = i==0 ? true : dones[i-1] # if the previous section has been done
                 last = i==a.size-1 # if this is the last section
                 plantable = section.premium && i2p_account.subscriptions.select { |subs| subs.active }.count == 0 # decide if I have to show the plantable
+                gradient = (section.premium && plantable) || !done_prev || stop_showing # decide if I have to show the gradient
                 i += 1
                 %>
                 <section class="row-fluid" id='<%=i.to_s%>' name='<%=i.to_s%>'>
-                    <div class="span12 box <%= section.premium ? 'gradient' : '' %> section">
+                    <div class="span12 box <%= gradient ? 'gradient' : '' %> section">
                         <h1 class='name' style='margin-top:25px;'><%=BlackStack::Content::Seminar.merge(section.name.to_s).encode_html%></h1>
                         <%
                         if s.show_abstract
@@ -125,9 +129,11 @@ a.each { |section|
                             else
                             %>
                             <center>
-                                <div class='upgrade'>
-                                    Upgrade to Unlock Premium Content
-                                </div>
+                                <a href='<%=privurl%>' class='upgrade'>
+                                    <div>
+                                        Upgrade to Access<br/>The Full Content
+                                    </div>
+                                </a>
                             </center>
                             <%
                             end
@@ -135,10 +141,24 @@ a.each { |section|
                         %>
                         <div class='next'>
                             <center>
+                                <%
+                                if !stop_showing
+                                    stop_showing = true
+                                %>
                                 <h3 style='color:rgb(120,120,120);'>
-                                    Complete Previous Sections<br/>
+                                    Complete Previous Section<br/>
                                     To Unlock This One.
                                 </h3>
+                                <%
+                                else # if !stop_showing
+                                %>
+                                <p style='color:rgb(120,120,120);'>
+                                    Complete Previous Sections<br/>
+                                    To Unlock This One.
+                                </p>
+                                <%
+                                end # if !stop_showing
+                                %>
                             </center>
                         </div>
                         <%
@@ -168,7 +188,7 @@ a.each { |section|
 
     <div class="span3 box sections-contaier">
         <div class='sections'>
-            <h4>Sections</h4>
+            <h4>Sectionssss</h4>
             <%
             i = 0
             s.sections.sort_by { |t| t.name.to_s }.select { |t| t.delete_time.nil? }.each { |section|
