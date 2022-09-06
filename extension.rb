@@ -40,7 +40,7 @@ BlackStack::Extensions::add ({
         :name => 'install-gems',
         :commands => [{ 
             :command => "
-                gem install redcarpet --no-document -v 3.5.1
+                gem install redcarpet --no-document -v 3.5.1;
             ",
             :sudo => true,
         }],
