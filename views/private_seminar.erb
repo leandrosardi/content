@@ -90,8 +90,13 @@ a.each { |section|
                 done = dones[i] #section.done_by?(@login.user)
                 done_prev = i==0 ? true : dones[i-1] # if the previous section has been done
                 last = i==a.size-1 # if this is the last section
-                plantable = section.premium && i2p_account.subscriptions.select { |subs| subs.active }.count == 0 # decide if I have to show the plantable
-                gradient = (section.premium && plantable) || !done_prev || stop_showing # decide if I have to show the gradient
+
+                # decide if I have to show the plantable.
+                # the credits for the product assigned to this seminar.
+                plantable = section.premium && i2p_account.balance(section.premium_required_product) > 0
+                
+                # decide if I have to show the gradient
+                gradient = (section.premium && plantable) || !done_prev || stop_showing 
                 i += 1
                 %>
                 <section class="row-fluid" id='<%=i.to_s%>' name='<%=i.to_s%>'>
@@ -188,7 +193,7 @@ a.each { |section|
 
     <div class="span3 sections-contaier">
         <div class='sections'>
-            <h4>Sectionssss</h4>
+            <h4>Sections</h4>
             <%
             i = 0
             s.sections.sort_by { |t| t.name.to_s }.select { |t| t.delete_time.nil? }.each { |section|
