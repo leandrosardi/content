@@ -1,6 +1,6 @@
 BlackStack::Extensions::add ({
     # descriptive name and descriptor
-    :name => 'Content',
+    :name => 'content',
     :description => 'Publish online seminars and courses inside a user interface designed to get readers to purchasing.',
 
     # setup the url of the repository for installation and updates
