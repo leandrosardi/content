@@ -6,16 +6,6 @@ get "/content/", :agent => /(.*)/ do
     redirect2 "/content/seminars", params
 end
 
-# public screens (signup/landing page)
-get "/content/signup", :agent => /(.*)/ do
-    erb :"/extensions/content/views/signup", :layout => :"/views/layouts/public"
-end
-
-# public screens (login page)
-get "/content/login", :agent => /(.*)/ do
-    erb :"/extensions/content/views/login", :layout => :"/views/layouts/public"
-end
-
 # internal app screens
 get "/content/seminars", :auth => true, :agent => /(.*)/ do
     erb :"/extensions/content/views/seminars", :layout => :"/views/layouts/core"
