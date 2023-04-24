@@ -8,4 +8,4 @@ _pending_
 
 ## Disclaimer
 
-The logo has been taken from [here](https://www.shareicon.net/content-595746).
+The logo has been taken from [here](https://icons8.com/icon/ay4lYdOUt1Vd/geometric-figures).
