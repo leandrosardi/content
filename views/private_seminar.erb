@@ -93,7 +93,7 @@ a.each { |section|
 
                 # decide if I have to show the plantable.
                 # the credits for the product assigned to this seminar.
-                plantable = section.premium && i2p_account.balance(section.premium_required_product) > 0
+                plantable = section.premium && i2p_account.balance(section.premium_required_product) <= 0
                 
                 # decide if I have to show the gradient
                 gradient = (section.premium && plantable) || !done_prev || stop_showing 
