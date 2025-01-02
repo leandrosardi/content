@@ -8,23 +8,23 @@ end
 
 # internal app screens
 get "/content/seminars", :auth => true, :agent => /(.*)/ do
-    erb :"/extensions/content/views/seminars", :layout => :"/views/layouts/core"
+    erb :"/extensions/content/views/seminars", :layout => :'/views/layouts/classic'
 end
 
 get "/content/seminars/new", :auth => true, :agent => /(.*)/ do
-    erb :"/extensions/content/views/new_seminar", :layout => :"/views/layouts/core"
+    erb :"/extensions/content/views/new_seminar", :layout => :'/views/layouts/classic'
 end
 
 get "/content/seminars/:sid/view", :auth => true, :agent => /(.*)/ do
-    erb :"/extensions/content/views/view_seminar", :layout => :"/views/layouts/core"
+    erb :"/extensions/content/views/view_seminar", :layout => :'/views/layouts/classic'
 end
 
 get "/content/seminars/:sid/edit", :auth => true, :agent => /(.*)/ do
-    erb :"/extensions/content/views/edit_seminar", :layout => :"/views/layouts/core"
+    erb :"/extensions/content/views/edit_seminar", :layout => :'/views/layouts/classic'
 end
 
 get "/content/seminars/:sid/edit/:tid", :auth => true, :agent => /(.*)/ do
-    erb :"/extensions/content/views/edit_section", :layout => :"/views/layouts/core"
+    erb :"/extensions/content/views/edit_section", :layout => :'/views/layouts/classic'
 end
 
 # public URLs of seminars
@@ -47,9 +47,9 @@ get "/seminars/:path/:name", :auth => true, :agent => /(.*)/ do
     name = params[:name].to_s
     s = BlackStack::Content::Seminar.where(:path=>path, :name=>name).first
     if s.type == 0 # BlackStack::Content::Seminar::TYPE_PROGRESSIVE_SEMINAR
-        erb :"/extensions/content/views/private_seminar", :layout => :"/views/layouts/core"
+        erb :"/extensions/content/views/private_seminar", :layout => :'/views/layouts/classic'
     elsif s.type == 1 # BlackStack::Content::Seminar::TYPE_PLAIN_ARTICLE
-        erb :"/extensions/content/views/private_article", :layout => :"/views/layouts/core"
+        erb :"/extensions/content/views/private_article", :layout => :'/views/layouts/classic'
     else
         halt 404
     end
@@ -57,18 +57,18 @@ end
 
 # show all the available paths
 get "/seminars/", :auth => true, :agent => /(.*)/ do
-    erb :"/extensions/content/views/view_paths", :layout => :"/views/layouts/core"
+    erb :"/extensions/content/views/view_paths", :layout => :'/views/layouts/classic'
 end
 get "/seminars", :auth => true, :agent => /(.*)/ do
-    erb :"/extensions/content/views/view_paths", :layout => :"/views/layouts/core"
+    erb :"/extensions/content/views/view_paths", :layout => :'/views/layouts/classic'
 end
 
 # show all the available seminars into a path
 get "/seminars/:path/", :auth => true, :agent => /(.*)/ do
-    erb :"/extensions/content/views/view_seminars", :layout => :"/views/layouts/core"
+    erb :"/extensions/content/views/view_seminars", :layout => :'/views/layouts/classic'
 end
 get "/seminars/:path", :auth => true, :agent => /(.*)/ do
-    erb :"/extensions/content/views/view_seminars", :layout => :"/views/layouts/core"
+    erb :"/extensions/content/views/view_seminars", :layout => :'/views/layouts/classic'
 end
 
 # filters
